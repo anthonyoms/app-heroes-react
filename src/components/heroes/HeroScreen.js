@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { useParams, Navigate, useNavigate } from "react-router-dom";
 import { getHeroById } from "../../selectors/getHeroById";
 
@@ -6,12 +6,14 @@ export const HeroScreen = () => {
   const navigate = useNavigate();
   const { heroeId } = useParams();
 
-  const hero = getHeroById(heroeId);
+  const hero = useMemo(() => getHeroById(heroeId), [heroeId]);
   if (!hero) {
     return <Navigate to="/" />;
   }
-  const handleClick = () => {
-    navigate(-1);
+  const handleReturn = () => {
+    heroeId.includes("dc")
+      ? navigate("/dc", { replace: true })
+      : navigate("/marvel", { replace: true });
   };
   const { superhero, publisher, alter_ego, first_appearance, characters } =
     hero;
@@ -21,12 +23,12 @@ export const HeroScreen = () => {
         <img
           src={`../assets/heroes/${heroeId}.jpg`}
           alt={superhero}
-          className="img-thumbnail"
+          className="img-thumbnail card-columns animate__animated animate__fadeInLeft"
         />
       </div>
-      <div className="col-8">
+      <div className="col-8  animate__animated animate__fadeIn">
         <h3>{superhero}</h3>
-        <ul className="list-group list-group-flush">
+        <ul className="list-group list-group-flush card-columns">
           <li className="list-group-item">
             <b>Alter ego: </b>
             {alter_ego}
@@ -43,7 +45,7 @@ export const HeroScreen = () => {
 
         <h5>Characters: </h5>
         <p>{characters}</p>
-        <button className="btn btn-outline-info" onClick={handleClick}>
+        <button className="btn btn-outline-info" onClick={handleReturn}>
           Return
         </button>
       </div>
