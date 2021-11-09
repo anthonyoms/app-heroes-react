@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import { useParams, Navigate, useNavigate } from "react-router-dom";
 import { getHeroById } from "../../selectors/getHeroById";
 
-export const HeroScreen = () => {
+export const HeroScreen = ({history}) => {
   const navigate = useNavigate();
   const { heroeId } = useParams();
 
@@ -11,9 +11,14 @@ export const HeroScreen = () => {
     return <Navigate to="/" />;
   }
   const handleReturn = () => {
-    heroeId.includes("dc")
-      ? navigate("/dc", { replace: true })
-      : navigate("/marvel", { replace: true });
+    console.log(window.history)
+    if (window.history <= 2) {
+      heroeId.includes("dc")
+        ? navigate("/dc")
+        : navigate("/marvel");
+    } else {
+      navigate(-1);
+    }
   };
   const { superhero, publisher, alter_ego, first_appearance, characters } =
     hero;

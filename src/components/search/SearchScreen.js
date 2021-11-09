@@ -1,25 +1,31 @@
-import React from "react";
-import { heroes } from "../../data/heroes";
-import { useForm } from "../../hooks/useForm";
+import React, { useMemo } from "react";
+import queryString from "query-string";
+
+import { getHeroesByName } from "../../selectors/getHeroesByName";
 import { HeroCard } from "../heroes/HeroCard";
+import { useForm } from "../../hooks/useForm";
 import { useNavigate, useLocation } from "react-router-dom";
 
 export const SearchScreen = () => {
-    const location = useLocation();
-    console.log(location)
-    
   const navigate = useNavigate();
-  const [values, handleInputChange, reset] = useForm({
-    searchText: "",
+  const location = useLocation();
+
+  const { q = "" } = useMemo(
+    () => queryString.parse(location.search),
+    [location.search]
+  );
+
+  const heroesFiltered = useMemo(() => getHeroesByName(q), [q]);
+
+  const [values, handleInputChange] = useForm({
+    searchText: q,
   });
 
   const { searchText } = values;
-  const heroesFiltered = heroes;
 
   const handleSearch = (e) => {
     e.preventDefault();
     navigate(`?q=${searchText}`);
-    reset();
   };
 
   return (
@@ -56,6 +62,13 @@ export const SearchScreen = () => {
           {heroesFiltered.map((hero) => (
             <HeroCard key={hero.id} {...hero} />
           ))}
+
+          <div className="alert">
+            {q === "" && "Search a hero"}
+            {q !== "" &&
+              !heroesFiltered.length &&
+              `There is no a hero with ${q}`}
+          </div>
         </div>
       </div>
     </div>
