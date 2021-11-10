@@ -1,16 +1,27 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { AuthContext } from "../auth/AuthContext";
 import { LoginScreen } from "../components/login/LoginScreen";
 import { DashboardRoutes } from "./DashboardRoutes";
 
 export const AppRouter = () => {
+  const {
+    user: { logged },
+  } = useContext(AuthContext);
+  console.log(logged);
   return (
     <Router>
       <div>
         <Routes>
-          <Route path="/login" element={<LoginScreen />} />
-          <Route path="/*" element={< DashboardRoutes />} />
+          {logged ? (
+            <Route path="/*" element={<DashboardRoutes />} />
+          ) : (
+            <>
+              <Route path="/login" element={<LoginScreen />} />
+              <Route path="*" element={<LoginScreen />} />
+            </>
+          )}
         </Routes>
       </div>
     </Router>
