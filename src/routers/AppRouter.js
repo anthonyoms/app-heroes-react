@@ -18,7 +18,6 @@ export const AppRouter = () => {
             <Route path="/*" element={<DashboardRoutes />} />
           ) : (
             <>
-              <Route path="/login" element={<LoginScreen />} />
               <Route path="*" element={<LoginScreen />} />
             </>
           )}
