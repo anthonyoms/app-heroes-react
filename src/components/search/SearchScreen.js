@@ -59,16 +59,20 @@ export const SearchScreen = () => {
           <h4>Results</h4>
           <hr />
 
-          {heroesFiltered.map((hero) => (
-            <HeroCard key={hero.id} {...hero} />
-          ))}
-
-          <div className="alert">
+          <div
+            className={
+              q !== "" && !heroesFiltered.length ? "text-danger" : "text-success"
+            }
+          >
             {q === "" && "Search a hero"}
             {q !== "" &&
               !heroesFiltered.length &&
-              `There is no a hero with ${q}`}
+              `There is no a hero with: ${q}`}
           </div>
+
+          {heroesFiltered.map((hero) => (
+            <HeroCard key={hero.id} {...hero} />
+          ))}
         </div>
       </div>
     </div>

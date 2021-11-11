@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes,useLocation } from "react-router-dom";
 import { DcScreen } from "../components/dc/DcScreen";
 import { HeroScreen } from "../components/heroes/HeroScreen";
 import { MarvelScreen } from "../components/marvel/MarvelScreen";
@@ -7,6 +7,8 @@ import { SearchScreen } from "../components/search/SearchScreen";
 import { Navbar } from "../components/ui/Navbar";
 
 export const DashboardRoutes = () => {
+  const location = useLocation();
+  localStorage.setItem('lastPath',location.pathname)
   return (
     <>
       <Navbar />

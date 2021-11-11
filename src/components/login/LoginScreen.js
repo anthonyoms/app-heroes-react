@@ -6,12 +6,13 @@ import { types } from "../../types/types";
 export const LoginScreen = () => {
   const { dispatch } = useContext(AuthContext);
   const navigate = useNavigate();
+  const lastPath = localStorage.getItem("lastPath") || "/";
   const handleLogin = () => {
+    navigate(lastPath, { replace: true });
     dispatch({
       type: types.login,
       payload: { name: "Anthony" },
     });
-    navigate("/", { replace: true });
   };
   return (
     <div className="container mt-5 ">
