@@ -1,18 +1,17 @@
 const { mount } = require("enzyme");
-const { MemoryRouter} = require("react-router");
-const { AuthContext } = require("../../auth/AuthContext");
-const { Navbar } = require("../../components/ui/Navbar");
-const { types } = require("../../types/types");
+const { MemoryRouter } = require("react-router");
+const { AuthContext } = require("../../../auth/AuthContext");
+const { Navbar } = require("../../../components/ui/Navbar");
+const { types } = require("../../../types/types");
 
 const mockedUsedNavigate = jest.fn();
 
-jest.mock('react-router-dom', () => ({
-   ...jest.requireActual('react-router-dom'),
+jest.mock("react-router-dom", () => ({
+  ...jest.requireActual("react-router-dom"),
   useNavigate: () => mockedUsedNavigate,
 }));
 
 describe("Pruebas en <Navbar />", () => {
-
   const contextValue = {
     dispatch: jest.fn(),
     user: {
@@ -41,6 +40,8 @@ describe("Pruebas en <Navbar />", () => {
   test("debe de llamar el logout y usar el navigate", () => {
     wrapper.find("button").simulate("click");
     expect(contextValue.dispatch).toHaveBeenCalledWith({ type: types.logout });
-    expect(mockedUsedNavigate).toHaveBeenCalledWith("/login", {"replace": true});
+    expect(mockedUsedNavigate).toHaveBeenCalledWith("/login", {
+      replace: true,
+    });
   });
 });

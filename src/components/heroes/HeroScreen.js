@@ -4,15 +4,16 @@ import { getHeroById } from "../../selectors/getHeroById";
 
 export const HeroScreen = () => {
   const navigate = useNavigate();
-  const { heroeId } = useParams();
+  const  {heroeId}  = useParams();
+  //console.log(heroeId);
+  //console.log(window.history.length)
 
   const hero = useMemo(() => getHeroById(heroeId), [heroeId]);
   if (!hero) {
     return <Navigate to="/" />;
   }
   const handleReturn = () => {
-    console.log(window.history);
-    if (window.history <= 2) {
+    if (window.history.length <= 2) {
       heroeId.includes("dc") ? navigate("/dc") : navigate("/marvel");
     } else {
       navigate(-1);
