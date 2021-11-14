@@ -1,21 +1,18 @@
-import { mount} from "enzyme";
-import { MemoryRouter, Route, Routes } from "react-router";
+import { shallow } from "enzyme";
+
 import { HeroScreen } from "../../../components/heroes/HeroScreen";
-import { MarvelScreen } from "../../../components/marvel/MarvelScreen";
 
+const mockedUsedNavigate = jest.fn();
 
+jest.mock("react-router-dom", () => ({
+  ...jest.requireActual("react-router-dom"),
+  useNavigate: () => mockedUsedNavigate,
+}));
 
 describe("Pruebas en <HeroScreen />", () => {
-  test("debe de mostrar el componente de redireccion al /", () => {
-    const wrapper = mount(
-      <MemoryRouter>
-        <Routes>
-        <Route path="/hero" element={<HeroScreen />} />
-        <Route path="/" element={<MarvelScreen />} />
-        </Routes>
-      </MemoryRouter>
-    );
+  test("debe de mostrar <Navigate /> cuando heroeId sea undefined", () => {
+    const wrapper = shallow(<HeroScreen />);
 
-    expect(wrapper).toMatchSnapshot();
+    expect(wrapper.find("Navigate").exists()).toBe(true);
   });
 });

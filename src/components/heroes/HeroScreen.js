@@ -5,12 +5,12 @@ import { getHeroById } from "../../selectors/getHeroById";
 export const HeroScreen = () => {
   const navigate = useNavigate();
   const  {heroeId}  = useParams();
-  //console.log(heroeId);
-  //console.log(window.history.length)
+  console.log(heroeId)
 
   const hero = useMemo(() => getHeroById(heroeId), [heroeId]);
+  console.log(!hero)
   if (!hero) {
-    return <Navigate to="/" />;
+   return  <Navigate to="/" />;
   }
   const handleReturn = () => {
     if (window.history.length <= 2) {
