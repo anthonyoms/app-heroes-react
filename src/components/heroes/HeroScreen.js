@@ -1,23 +1,17 @@
 import React, { useMemo } from "react";
 import { useParams, Navigate, useNavigate } from "react-router-dom";
+import { heroImages } from "../../helpers/heroImages";
 import { getHeroById } from "../../selectors/getHeroById";
-
 export const HeroScreen = () => {
   const navigate = useNavigate();
-  const  {heroeId}  = useParams();
-  console.log(heroeId)
+  const { heroeId } = useParams();
 
   const hero = useMemo(() => getHeroById(heroeId), [heroeId]);
-  console.log(!hero)
   if (!hero) {
-   return  <Navigate to="/" />;
+    return <Navigate to="/" />;
   }
   const handleReturn = () => {
-    if (window.history.length <= 2) {
-      heroeId.includes("dc") ? navigate("/dc") : navigate("/marvel");
-    } else {
-      navigate(-1);
-    }
+    heroeId.includes("dc") ? navigate("/dc") : navigate("/marvel");
   };
   const { superhero, publisher, alter_ego, first_appearance, characters } =
     hero;
@@ -25,7 +19,7 @@ export const HeroScreen = () => {
     <div className="row mt-5">
       <div className="col-4">
         <img
-          src={`../assets/heroes/${heroeId}.jpg`}
+          src={heroImages(`./${heroeId}.jpg`).default}
           alt={superhero}
           className="img-thumbnail card-columns animate__animated animate__fadeInLeft"
         />
